@@ -24,10 +24,10 @@ export default function Web() {
                 and embrace the future of ticketing with OpenSeats - where true fans buy their tickets.
               </p>
             </div>
-            <Button className="mr-3 bg-yellow-400 text-black" href={"/start-match"}>
+            <Button className="mr-3 bg-yellow-300 text-black" href={"/start-match"}>
               Start Match
             </Button>
-            <Button className="bg-yellow-400 text-black" href={"/available-matches"}>
+            <Button className="bg-yellow-300 text-black" href={"/available-matches"}>
               See Available Matches
             </Button>
           </div>
