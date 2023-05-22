@@ -18,35 +18,36 @@ export default function Web() {
       date: dateString,
       tokenName: homeTeam,
       tokenSymbol: awayTeam,
-      gates: [] as { // Added type annotation for the 'gates' array
-        gate: string;
+      gates: [] as {
+        // Added type annotation for the 'gates' array
+        gate: string
         sections: {
-          row: number;
-          seats: number;
-          category: number;
-        }[];
+          row: number
+          seats: number
+          category: number
+        }[]
       }[],
-    };
+    }
 
     venueConfig.forEach((gate) => {
       const gateData = {
         gate: gate.gate,
         sections: [] as { row: number; seats: number; category: number }[],
-      };
+      }
 
       gate.sections.forEach((section) => {
         const sectionData = {
           row: Number(section.row),
           seats: Number(section.seats),
           category: Number(section.category),
-        };
+        }
 
-        gateData.sections.push(sectionData);
-      });
+        gateData.sections.push(sectionData)
+      })
 
-      matchData.gates.push(gateData);
-    });
-    console.log('MatchData:', matchData)
+      matchData.gates.push(gateData)
+    })
+    console.log("MatchData:", matchData)
 
     // Create Match
     try {
@@ -54,18 +55,18 @@ export default function Web() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(matchData),
-      });
+      })
 
       if (response.ok) {
-        const data = await response.json();
-        console.log("Match created successfully:", data);
+        const data = await response.json()
+        console.log("Match created successfully:", data)
       } else {
-        console.error("Failed to create match:", response.statusText);
+        console.error("Failed to create match:", response.statusText)
       }
     } catch (error) {
-      console.error("Failed to create match:", error);
+      console.error("Failed to create match:", error)
     }
-  };
+  }
 
   const handleAddGate = () => {
     setVenueConfig([...venueConfig, { gate: "", sections: [{ row: "", seats: "", category: "" }] }])
@@ -135,7 +136,7 @@ export default function Web() {
               <div>
                 <label
                   htmlFor="awayTeam"
-                  className="block pb-2 text-center text-lg font-bold text-gray-700 dark:text-gray-400 pt-4 sm:pt-8 lg:pt-12"
+                  className="block pb-2 pt-4 text-center text-lg font-bold text-gray-700 dark:text-gray-400 sm:pt-8 lg:pt-12"
                 >
                   Away Team
                 </label>
@@ -296,10 +297,10 @@ export default function Web() {
               </button>
             </div>
           </form>
-          <div className="flex justify-center mt-8">
+          <div className="mt-8 flex justify-center">
             <button
               type="button"
-              className="py-2 px-4 bg-yellow-500 text-white font-bold rounded shadow hover:bg-yellow-600"
+              className="rounded bg-yellow-500 px-4 py-2 font-bold text-white shadow hover:bg-yellow-600"
               onClick={handleCreateMatch}
             >
               Create Match
