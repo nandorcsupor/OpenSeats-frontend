@@ -12,6 +12,61 @@ export default function Web() {
   const [maxTicketNumber, setMaxTicketNumber] = useState("")
   const [venueConfig, setVenueConfig] = useState([{ gate: "", sections: [{ row: "", seats: "", category: "" }] }])
 
+  const handleCreateMatch = async () => {
+    const matchData = {
+      max_tickets: Number(maxTicketNumber),
+      date: dateString,
+      tokenName: homeTeam,
+      tokenSymbol: awayTeam,
+      gates: [] as { // Added type annotation for the 'gates' array
+        gate: string;
+        sections: {
+          row: number;
+          seats: number;
+          category: number;
+        }[];
+      }[],
+    };
+
+    venueConfig.forEach((gate) => {
+      const gateData = {
+        gate: gate.gate,
+        sections: [] as { row: number; seats: number; category: number }[],
+      };
+
+      gate.sections.forEach((section) => {
+        const sectionData = {
+          row: Number(section.row),
+          seats: Number(section.seats),
+          category: Number(section.category),
+        };
+
+        gateData.sections.push(sectionData);
+      });
+
+      matchData.gates.push(gateData);
+    });
+    console.log('MatchData:', matchData)
+
+    // Create Match
+    try {
+      const response = await fetch("http://localhost:8000/create-match", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(matchData),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log("Match created successfully:", data);
+      } else {
+        console.error("Failed to create match:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Failed to create match:", error);
+    }
+  };
+
   const handleAddGate = () => {
     setVenueConfig([...venueConfig, { gate: "", sections: [{ row: "", seats: "", category: "" }] }])
   }
@@ -49,7 +104,7 @@ export default function Web() {
       <Head>
         <title>Start New Football Match</title>
       </Head>
-      <section className="bg-gradient-to-b from-purple-800 via-purple-800 to-white transition-all duration-1000">
+      <section className="bg-gradient-to-b from-purple-800 via-purple-700 to-white transition-all duration-1000">
         <div className="mx-auto grid max-w-screen-xl px-4 py-8 text-center lg:py-16">
           <div className="mx-auto place-self-center">
             <h1 className="mb-4 max-w-2xl text-4xl font-extrabold leading-none tracking-tight text-white md:text-5xl xl:text-6xl">
@@ -80,7 +135,7 @@ export default function Web() {
               <div>
                 <label
                   htmlFor="awayTeam"
-                  className="block pb-2 text-center text-lg font-bold text-gray-700 dark:text-gray-400"
+                  className="block pb-2 text-center text-lg font-bold text-gray-700 dark:text-gray-400 pt-4 sm:pt-8 lg:pt-12"
                 >
                   Away Team
                 </label>
@@ -92,7 +147,7 @@ export default function Web() {
                   onChange={(e) => setAwayTeam(e.target.value)}
                 />
               </div>
-              <div>
+              <div className="pt-4 sm:pt-8 lg:pt-12">
                 <label
                   htmlFor="date"
                   className="block pb-2 text-center text-lg font-bold text-gray-700 dark:text-gray-400"
@@ -106,7 +161,7 @@ export default function Web() {
                   onChange={handleDatePickerChange}
                 />
               </div>
-              <div>
+              <div className="pt-4 sm:pt-8 lg:pt-12">
                 <label
                   htmlFor="maxTicketNumber"
                   className="block pb-2 text-center text-lg font-bold text-gray-700 dark:text-gray-400"
@@ -241,6 +296,15 @@ export default function Web() {
               </button>
             </div>
           </form>
+          <div className="flex justify-center mt-8">
+            <button
+              type="button"
+              className="py-2 px-4 bg-yellow-500 text-white font-bold rounded shadow hover:bg-yellow-600"
+              onClick={handleCreateMatch}
+            >
+              Create Match
+            </button>
+          </div>
         </div>
       </section>
     </>
