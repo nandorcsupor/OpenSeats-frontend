@@ -1,49 +1,48 @@
-import Head from "next/head";
-import { useState } from "react";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import { format } from "date-fns";
-
+import Head from "next/head"
+import { useState } from "react"
+import DatePicker from "react-datepicker"
+import "react-datepicker/dist/react-datepicker.css"
+import { format } from "date-fns"
 
 export default function Web() {
-  const [homeTeam, setHomeTeam] = useState("");
-  const [awayTeam, setAwayTeam] = useState("");
-  const [date, setDate] = useState<Date | null>(null);
-  const [dateString, setDateString] = useState<string>("");
-  const [maxTicketNumber, setMaxTicketNumber] = useState("");
-  const [venueConfig, setVenueConfig] = useState([{ gate: "", sections: [{ row: "", seats: "", category: "" }] }]);
+  const [homeTeam, setHomeTeam] = useState("")
+  const [awayTeam, setAwayTeam] = useState("")
+  const [date, setDate] = useState<Date | null>(null)
+  const [dateString, setDateString] = useState<string>("")
+  const [maxTicketNumber, setMaxTicketNumber] = useState("")
+  const [venueConfig, setVenueConfig] = useState([{ gate: "", sections: [{ row: "", seats: "", category: "" }] }])
 
   const handleAddGate = () => {
-    setVenueConfig([...venueConfig, { gate: "", sections: [{ row: "", seats: "", category: "" }] }]);
-  };
+    setVenueConfig([...venueConfig, { gate: "", sections: [{ row: "", seats: "", category: "" }] }])
+  }
 
   const handleDeleteGate = (index: number) => {
-    const updatedConfig = [...venueConfig];
-    updatedConfig.splice(index, 1);
-    setVenueConfig(updatedConfig);
-  };
+    const updatedConfig = [...venueConfig]
+    updatedConfig.splice(index, 1)
+    setVenueConfig(updatedConfig)
+  }
 
   const handleAddSection = (gateIndex: number) => {
-    const updatedConfig = [...venueConfig];
-    updatedConfig[gateIndex].sections.push({ row: "", seats: "", category: "" });
-    setVenueConfig(updatedConfig);
-  };
+    const updatedConfig = [...venueConfig]
+    updatedConfig[gateIndex].sections.push({ row: "", seats: "", category: "" })
+    setVenueConfig(updatedConfig)
+  }
 
   const handleDeleteSection = (gateIndex: number, sectionIndex: number) => {
-    const updatedConfig = [...venueConfig];
-    updatedConfig[gateIndex].sections.splice(sectionIndex, 1);
-    setVenueConfig(updatedConfig);
-  };
+    const updatedConfig = [...venueConfig]
+    updatedConfig[gateIndex].sections.splice(sectionIndex, 1)
+    setVenueConfig(updatedConfig)
+  }
 
   const handleDatePickerChange = (selectedDate: Date | null) => {
     if (selectedDate) {
-      const formattedDate = format(selectedDate, "dd/MM/yyyy");
-      setDate(selectedDate);
+      const formattedDate = format(selectedDate, "dd/MM/yyyy")
+      setDate(selectedDate)
       setDateString(formattedDate)
     } else {
-      setDate(null);
+      setDate(null)
     }
-  };
+  }
 
   return (
     <>
@@ -64,65 +63,77 @@ export default function Web() {
           <form>
             <div className="grid grid-cols-1 gap-6">
               <div>
-                <label htmlFor="homeTeam" className="block text-gray-700 dark:text-gray-400 text-center text-lg font-bold pb-2">
+                <label
+                  htmlFor="homeTeam"
+                  className="block pb-2 text-center text-lg font-bold text-gray-700 dark:text-gray-400"
+                >
                   Home Team
                 </label>
                 <input
                   type="text"
                   id="homeTeam"
-                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-primary-400 focus:ring focus:ring-primary-200 dark:bg-gray-800 dark:text-gray-300"
+                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-primary-400 focus:outline-none focus:ring focus:ring-primary-200 dark:bg-gray-800 dark:text-gray-300"
                   value={homeTeam}
                   onChange={(e) => setHomeTeam(e.target.value)}
                 />
               </div>
               <div>
-                <label htmlFor="awayTeam" className="block text-gray-700 dark:text-gray-400 text-center text-lg font-bold pb-2">
+                <label
+                  htmlFor="awayTeam"
+                  className="block pb-2 text-center text-lg font-bold text-gray-700 dark:text-gray-400"
+                >
                   Away Team
                 </label>
                 <input
                   type="text"
                   id="awayTeam"
-                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-primary-400 focus:ring focus:ring-primary-200 dark:bg-gray-800 dark:text-gray-300"
+                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-primary-400 focus:outline-none focus:ring focus:ring-primary-200 dark:bg-gray-800 dark:text-gray-300"
                   value={awayTeam}
                   onChange={(e) => setAwayTeam(e.target.value)}
                 />
               </div>
               <div>
-                <label htmlFor="date" className="block text-gray-700 dark:text-gray-400 text-center text-lg font-bold pb-2">
+                <label
+                  htmlFor="date"
+                  className="block pb-2 text-center text-lg font-bold text-gray-700 dark:text-gray-400"
+                >
                   Date
                 </label>
                 <DatePicker
                   id="date"
-                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-primary-400 focus:ring focus:ring-primary-200 dark:bg-gray-800 dark:text-gray-300"
+                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-primary-400 focus:outline-none focus:ring focus:ring-primary-200 dark:bg-gray-800 dark:text-gray-300"
                   selected={date}
                   onChange={handleDatePickerChange}
                 />
               </div>
               <div>
-                <label htmlFor="maxTicketNumber" className="block text-gray-700 dark:text-gray-400 text-center text-lg font-bold pb-2">
+                <label
+                  htmlFor="maxTicketNumber"
+                  className="block pb-2 text-center text-lg font-bold text-gray-700 dark:text-gray-400"
+                >
                   Max Ticket Number
                 </label>
                 <input
                   type="text"
                   id="maxTicketNumber"
-                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-primary-400 focus:ring focus:ring-primary-200 dark:bg-gray-800 dark:text-gray-300"
+                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-primary-400 focus:outline-none focus:ring focus:ring-primary-200 dark:bg-gray-800 dark:text-gray-300"
                   value={maxTicketNumber}
                   onChange={(e) => setMaxTicketNumber(e.target.value)}
                 />
               </div>
               {venueConfig.map((gate, gateIndex) => (
-                <div key={gateIndex} className="border border-gray-300 rounded p-4">
-                  <div className="flex items-center justify-between mb-4">
+                <div key={gateIndex} className="rounded border border-gray-300 p-4">
+                  <div className="mb-4 flex items-center justify-between">
                     <h3 className="text-lg font-bold">
                       Gate{" "}
                       <input
                         type="text"
                         value={gate.gate}
-                        className="ml-4 w-40 border-gray-300 rounded-md shadow-sm focus:border-primary-400 focus:ring focus:ring-primary-200 dark:bg-gray-800 dark:text-gray-300"
+                        className="ml-4 w-40 rounded-md border-gray-300 shadow-sm focus:border-primary-400 focus:ring focus:ring-primary-200 dark:bg-gray-800 dark:text-gray-300"
                         onChange={(e) => {
-                          const updatedConfig = [...venueConfig];
-                          updatedConfig[gateIndex].gate = e.target.value;
-                          setVenueConfig(updatedConfig);
+                          const updatedConfig = [...venueConfig]
+                          updatedConfig[gateIndex].gate = e.target.value
+                          setVenueConfig(updatedConfig)
                         }}
                         placeholder={`${gateIndex + 1}`}
                       />
@@ -152,50 +163,59 @@ export default function Web() {
                         </div>
                         <div className="grid grid-cols-3 gap-4">
                           <div>
-                            <label htmlFor={`row-${gateIndex}-${sectionIndex}`} className="block text-gray-700 dark:text-gray-400">
+                            <label
+                              htmlFor={`row-${gateIndex}-${sectionIndex}`}
+                              className="block text-gray-700 dark:text-gray-400"
+                            >
                               Row Number
                             </label>
                             <input
                               type="text"
                               id={`row-${gateIndex}-${sectionIndex}`}
-                              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-primary-400 focus:ring focus:ring-primary-200 dark:bg-gray-800 dark:text-gray-300"
+                              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-400 focus:ring focus:ring-primary-200 dark:bg-gray-800 dark:text-gray-300"
                               value={section.row}
                               onChange={(e) => {
-                                const updatedConfig = [...venueConfig];
-                                updatedConfig[gateIndex].sections[sectionIndex].row = e.target.value;
-                                setVenueConfig(updatedConfig);
+                                const updatedConfig = [...venueConfig]
+                                updatedConfig[gateIndex].sections[sectionIndex].row = e.target.value
+                                setVenueConfig(updatedConfig)
                               }}
                             />
                           </div>
                           <div>
-                            <label htmlFor={`seats-${gateIndex}-${sectionIndex}`} className="block text-gray-700 dark:text-gray-400">
+                            <label
+                              htmlFor={`seats-${gateIndex}-${sectionIndex}`}
+                              className="block text-gray-700 dark:text-gray-400"
+                            >
                               Number of Seats
                             </label>
                             <input
                               type="text"
                               id={`seats-${gateIndex}-${sectionIndex}`}
-                              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-primary-400 focus:ring focus:ring-primary-200 dark:bg-gray-800 dark:text-gray-300"
+                              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-400 focus:ring focus:ring-primary-200 dark:bg-gray-800 dark:text-gray-300"
                               value={section.seats}
                               onChange={(e) => {
-                                const updatedConfig = [...venueConfig];
-                                updatedConfig[gateIndex].sections[sectionIndex].seats = e.target.value;
-                                setVenueConfig(updatedConfig);
+                                const updatedConfig = [...venueConfig]
+                                updatedConfig[gateIndex].sections[sectionIndex].seats = e.target.value
+                                setVenueConfig(updatedConfig)
                               }}
                             />
                           </div>
                           <div>
-                            <label htmlFor={`category-${gateIndex}-${sectionIndex}`} className="block text-gray-700 dark:text-gray-400">
+                            <label
+                              htmlFor={`category-${gateIndex}-${sectionIndex}`}
+                              className="block text-gray-700 dark:text-gray-400"
+                            >
                               Category Number
                             </label>
                             <input
                               type="text"
                               id={`category-${gateIndex}-${sectionIndex}`}
-                              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-primary-400 focus:ring focus:ring-primary-200 dark:bg-gray-800 dark:text-gray-300"
+                              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-400 focus:ring focus:ring-primary-200 dark:bg-gray-800 dark:text-gray-300"
                               value={section.category}
                               onChange={(e) => {
-                                const updatedConfig = [...venueConfig];
-                                updatedConfig[gateIndex].sections[sectionIndex].category = e.target.value;
-                                setVenueConfig(updatedConfig);
+                                const updatedConfig = [...venueConfig]
+                                updatedConfig[gateIndex].sections[sectionIndex].category = e.target.value
+                                setVenueConfig(updatedConfig)
                               }}
                             />
                           </div>
@@ -204,7 +224,7 @@ export default function Web() {
                     ))}
                     <button
                       type="button"
-                      className="text-sm text-gray-700 dark:text-gray-400 focus:outline-none"
+                      className="text-sm text-gray-700 focus:outline-none dark:text-gray-400"
                       onClick={() => handleAddSection(gateIndex)}
                     >
                       Add Section
@@ -214,7 +234,7 @@ export default function Web() {
               ))}
               <button
                 type="button"
-                className="mt-4 text-sm text-gray-700 dark:text-gray-400 focus:outline-none"
+                className="mt-4 text-sm text-gray-700 focus:outline-none dark:text-gray-400"
                 onClick={handleAddGate}
               >
                 Add New Gate
@@ -224,5 +244,5 @@ export default function Web() {
         </div>
       </section>
     </>
-  );
+  )
 }
