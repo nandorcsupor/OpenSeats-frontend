@@ -1,7 +1,7 @@
 import React from "react"
 import BlockchainIcon from "./blockchainicon"
-import SecurityIcon from "./securityicon"
 import BusinessIcon from "./businessicon"
+import SecurityIcon from "./securityicon"
 
 interface CardsData {
   title: string

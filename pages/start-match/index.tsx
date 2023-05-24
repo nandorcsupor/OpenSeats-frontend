@@ -16,8 +16,8 @@ export default function Web() {
     const matchData = {
       max_tickets: Number(maxTicketNumber),
       date: dateString,
-      tokenName: homeTeam,
-      tokenSymbol: awayTeam,
+      token_name: homeTeam + '-' + awayTeam,
+      token_symbol: homeTeam[0] + awayTeam[0],
       gates: [] as {
         // Added type annotation for the 'gates' array
         gate: string
