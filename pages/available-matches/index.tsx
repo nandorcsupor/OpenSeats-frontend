@@ -1,5 +1,5 @@
+import Modal from "pages/modal";
 import { useState, useEffect } from "react";
-import Head from "next/head";
 
 interface Match {
   ticket_address: string;
@@ -11,6 +11,7 @@ interface Match {
 export default function Web() {
   const [matchData, setMatchData] = useState<Match[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [showModal, setShowModal] = useState(false);
 
   const fetchMatchData = async () => {
     try {
@@ -83,6 +84,48 @@ export default function Web() {
                       <td className="px-6 py-4 whitespace-nowrap">{match.match_name}</td>
                       <td className="px-6 py-4 whitespace-nowrap">{match.ticket_date}</td>
                       <td className="px-6 py-4 whitespace-nowrap">{match.max_tickets}</td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <button
+                          className="bg-pink-500 text-white active:bg-pink-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                          type="button"
+                          onClick={() => setShowModal(true)}
+                        >
+                          Buy Ticket
+                        </button>
+                        {showModal && (
+                          <div className="fixed inset-0 flex items-center justify-center z-50">
+                            <div className="bg-white p-6 rounded-lg shadow-lg max-w-4xl w-full overflow-hidden">
+                              <h3 className="text-3xl font-semibold mb-4">
+                                Buy {match.match_name} Tickets
+                              </h3>
+                              <p className="text-slate-500 text-lg leading-relaxed">
+                                <span className="whitespace-pre-line">
+                                  I always felt like I could do anything. That’s the main thing people are controlled by! Thoughts - their perception of themselves! They're slowed down by their perception of themselves. If you're taught you can’t do anything, you won’t do anything. I was taught I could do everything.
+                                </span>
+                              </p>
+                              <div className="flex items-center justify-end mt-6">
+                                <button
+                                  className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-2"
+                                  type="button"
+                                  onClick={() => setShowModal(false)}
+                                >
+                                  Close
+                                </button>
+                                <button
+                                  className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none"
+                                  type="button"
+                                  onClick={() => setShowModal(false)}
+                                >
+                                  Save Changes
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        )}
+                        {showModal && (
+                          <div className="fixed inset-0 z-40 bg-black opacity-25"></div>
+                        )}
+                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -91,6 +134,8 @@ export default function Web() {
           </div>
         </div>
       </section>
+
+
     </>
-  )
+  );
 }
