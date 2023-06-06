@@ -13,6 +13,14 @@ export default function Web() {
   const [isLoading, setIsLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
 
+  // Buy Ticket States
+  const [gate, setGate] = useState('');
+  const [section, setSection] = useState('');
+  const [row, setRow] = useState('');
+  const [seat, setSeat] = useState('');
+  const [category, setCategory] = useState('');
+  const [selectedContract, setSelectedContract] = useState('')
+
   const fetchMatchData = async () => {
     try {
       const response = await fetch("http://localhost:8000/get-matches");
@@ -33,6 +41,37 @@ export default function Web() {
   useEffect(() => {
     setIsLoading(false);
   }, [matchData]);
+
+  const onSubmit = async () => {
+    const buy_ticket_data = {
+      ticket_contract_address: selectedContract,
+      gate: gate,
+      section: section,
+      row: row,
+      seat: seat,
+      category: category
+    }
+
+    console.log("MatchData:", buy_ticket_data)
+
+    // Buy Ticket
+    try {
+      const response = await fetch("http://localhost:8000/buy-ticket", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(buy_ticket_data)
+      })
+
+      if (response.ok) {
+        const data = await response.json()
+        console.log("Ticket buy successful:", data)
+      } else {
+        console.error("Failed to buy ticket:", response.statusText)
+      }
+    } catch (error) {
+      console.error("Failed to buy ticket#2:", error)
+    }
+  }
 
   return (
     <>
@@ -106,9 +145,63 @@ export default function Web() {
                                     </h3>
                                     <p className="text-slate-500 text-lg leading-relaxed">
                                       <span className="whitespace-pre-line">
-                                        I always felt like I could do anything. That’s the main thing people are controlled by! Thoughts - their perception of themselves! They're slowed down by their perception of themselves. If you're taught you can’t do anything, you won’t do anything. I was taught I could do everything.
+                                        Remember, you can only resell your ticket once, for the same price.
                                       </span>
                                     </p>
+                                    <div className="mt-4">
+                                      <input
+                                        type="text"
+                                        placeholder={match.ticket_address}
+                                        value={selectedContract}
+                                        onChange={(e) => setSelectedContract(e.target.value)}
+                                        className="border border-gray-300 rounded-m p-2 w-full"
+                                      />
+                                    </div>
+                                    <div className="mt-4">
+                                      <input
+                                        type="text"
+                                        placeholder="Gate"
+                                        value={gate}
+                                        onChange={(e) => setGate(e.target.value)}
+                                        className="border border-gray-300 rounded-md p-2"
+                                      />
+                                    </div>
+                                    <div className="mt-4">
+                                      <input
+                                        type="text"
+                                        placeholder="Section"
+                                        value={section}
+                                        onChange={(e) => setSection(e.target.value)}
+                                        className="border border-gray-300 rounded-md p-2"
+                                      />
+                                    </div>
+                                    <div className="mt-4">
+                                      <input
+                                        type="text"
+                                        placeholder="Row"
+                                        value={row}
+                                        onChange={(e) => setRow(e.target.value)}
+                                        className="border border-gray-300 rounded-md p-2"
+                                      />
+                                    </div>
+                                    <div className="mt-4">
+                                      <input
+                                        type="text"
+                                        placeholder="Seat"
+                                        value={seat}
+                                        onChange={(e) => setSeat(e.target.value)}
+                                        className="border border-gray-300 rounded-md p-2"
+                                      />
+                                    </div>
+                                    <div className="mt-4">
+                                      <input
+                                        type="text"
+                                        placeholder="Category"
+                                        value={category}
+                                        onChange={(e) => setCategory(e.target.value)}
+                                        className="border border-gray-300 rounded-md p-2"
+                                      />
+                                    </div>
                                   </div>
                                 </div>
                               </div>
@@ -123,9 +216,9 @@ export default function Web() {
                                 <button
                                   className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none"
                                   type="button"
-                                  onClick={() => setShowModal(false)}
+                                  onClick={onSubmit}
                                 >
-                                  Save Changes
+                                  Buy Ticket
                                 </button>
                               </div>
                             </div>

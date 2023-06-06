@@ -15,14 +15,14 @@ export default function Web() {
               <h1 className="mb-4 text-5xl font-extrabold leading-none tracking-tight md:text-7xl xl:text-8xl">
                 OpenSeats - Where True Fans Buy Their Tickets
               </h1>
-              <p className="mb-6 pt-12 text-lg font-light lg:mb-8 lg:text-xl">
+              <h1 className="mb-6 pt-12 text-lg font-light lg:mb-8 lg:text-xl">
                 Welcome to OpenSeats, the game-changer in the ticketing industry. Leveraging the power of blockchain
                 technology, we have pioneered a new era of transparent and fair ticket sales. OpenSeats ensures not just
                 authenticity but also enforces a cap on resale prices, meaning every fan has a fair shot at experiencing
                 their dream events. No longer will fans be held ransom by inflated resale prices; our unique platform
-                ensures tickets can be resold only once and at no more than a 5% markup. Bid farewell to ticket scalping
+                ensures tickets can be resold only once and at the same price. Bid farewell to ticket scalping
                 and embrace the future of ticketing with OpenSeats - where true fans buy their tickets.
-              </p>
+              </h1>
             </div>
             <Button className="mr-3 bg-yellow-300 text-black" href={"/start-match"}>
               Start Match
