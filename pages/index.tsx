@@ -49,7 +49,28 @@ export default function Web() {
         <div className="mx-auto max-w-screen-xl px-4 py-8 sm:py-16 lg:px-6">
           <div className="flex flex-col items-center">
             <h1 className="mb-4 text-5xl font-extrabold leading-none tracking-tight md:text-7xl xl:text-8xl bg-clip-text text-transparent bg-gradient-to-b from-black to-black">
-              How it works
+              For Clubs
+            </h1>
+          </div>
+          <div className="flex justify-center gap-12 pt-10">
+            <div className="flex flex-col items-center">
+              <img src="/nft.png" alt="Icon 1" className="w-16 h-16" />
+              <h3 className="mt-4 text-lg font-bold text-black">Create an NFT for the Match</h3>
+              <p className="mt-2 text-gray-500 text-center">Specify details such as the number of available tickets, gate, section, row, and seat numbers</p>
+            </div>
+            <div className="flex flex-col items-center">
+              <img src="/sunbathing.png" alt="Icon 2" className="w-16 h-16" />
+              <h3 className="mt-4 text-lg font-bold text-black">Sit Back and Enjoy</h3>
+              <p className="mt-2 text-gray-500 text-center">Our system eliminates scalping, ensuring fair pricing for passionate fans like you</p>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section className="bg-white transition-all duration-1000">
+        <div className="mx-auto max-w-screen-xl px-4 py-8 sm:py-16 lg:px-6">
+          <div className="flex flex-col items-center">
+            <h1 className="mb-4 text-5xl font-extrabold leading-none tracking-tight md:text-7xl xl:text-8xl bg-clip-text text-transparent bg-gradient-to-b from-black to-black">
+              For Fans
             </h1>
           </div>
           <div className="flex justify-center gap-12 pt-10">
