@@ -25,7 +25,7 @@ const IconData: CardsData[] = [
   {
     title: "Fair Business",
     description:
-      "Blockchain empowers businesses with fairness by eliminating intermediaries and enabling direct peer-to-peer transactions. Its decentralized nature ensures transparency, immutability, and equal access, fostering a level playing field for all participants.",
+      "Blockchain revolutionizes the exchange of tickets between football clubs and fans by eliminating intermediaries and enabling direct peer-to-peer transactions. Its decentralized nature ensures transparency, immutability, and equal access, creating a level playing field for all participants and empowering businesses with fairness.",
     icon: <BusinessIcon width={300} height={150} />,
   },
 ]

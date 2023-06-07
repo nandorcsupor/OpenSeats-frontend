@@ -1,13 +1,10 @@
-import Head from "next/head"
-import { Button } from "components/Button/Button"
-import IconData from "./icons/cards2"
+import Head from "next/head";
+import { Button } from "components/Button/Button";
+import IconData from "./icons/cards2";
 
 export default function Web() {
   return (
     <>
-      <Head>
-        <title>OpenSeats - Where True Fans Buy Their Tickets</title>
-      </Head>
       <section className="bg-gradient-to-b from-purple-800 via-purple-700 to-white transition-all duration-1000">
         <div className="mx-auto grid max-w-screen-xl px-4 py-8 text-center lg:py-16">
           <div className="mx-auto place-self-center">
@@ -48,6 +45,37 @@ export default function Web() {
           </div>
         </div>
       </section>
+      <section className="bg-white transition-all duration-1000">
+        <div className="mx-auto max-w-screen-xl px-4 py-8 sm:py-16 lg:px-6">
+          <div className="flex flex-col items-center">
+            <h1 className="mb-4 text-5xl font-extrabold leading-none tracking-tight md:text-7xl xl:text-8xl bg-clip-text text-transparent bg-gradient-to-b from-black to-black">
+              How it works
+            </h1>
+          </div>
+          <div className="flex justify-center gap-12 pt-10">
+            <div className="flex flex-col items-center">
+              <img src="/ethereum.png" alt="Icon 1" className="w-16 h-16" />
+              <h3 className="mt-4 text-lg font-bold text-black">Buy a Ticket</h3>
+              <p className="mt-2 text-gray-500 text-center">Browse and purchase tickets directly from football clubs</p>
+            </div>
+            <div className="flex flex-col items-center">
+              <img src="shake-hand.png" alt="Icon 2" className="w-16 h-16" />
+              <h3 className="mt-4 text-lg font-bold text-black">Mind the Resell Cap</h3>
+              <p className="mt-2 text-gray-500 text-center">Tickets can only be resold once, at the original price paid</p>
+            </div>
+            <div className="flex flex-col items-center">
+              <img src="data-security.png" alt="Icon 3" className="w-16 h-16" />
+              <h3 className="mt-4 text-lg font-bold text-black">Bind it to Your Name</h3>
+              <p className="mt-2 text-gray-500 text-center">Ensure the ticket is associated with your identity for authentication</p>
+            </div>
+            <div className="flex flex-col items-center">
+              <img src="mail.png" alt="Icon 4" className="w-16 h-16" />
+              <h3 className="mt-4 text-lg font-bold text-black">Check Your Email</h3>
+              <p className="mt-2 text-gray-500 text-center">Receive a QR code via email for admission to the match</p>
+            </div>
+          </div>
+        </div>
+      </section>
     </>
-  )
+  );
 }
