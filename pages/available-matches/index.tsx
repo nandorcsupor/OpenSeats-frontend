@@ -21,6 +21,11 @@ export default function Web() {
   const [category, setCategory] = useState('');
   const [selectedContract, setSelectedContract] = useState('')
   const [showToast, setShowToast] = useState(false)
+  const [showBindModal, setShowBindModal] = useState(false)
+  const [tokenId, setTokenId] = useState('')
+  const [fullName, setFullName] = useState('')
+  const [email, setEmail] = useState('')
+  const [toastMessage, setToastMessage] = useState('')
 
   const fetchMatchData = async () => {
     try {
@@ -46,16 +51,17 @@ export default function Web() {
   const onSubmit = async () => {
     setShowToast(true)
     setShowModal(false)
+    setToastMessage('NFT ticket purchased successfully')
     const buy_ticket_data = {
       ticket_contract_address: selectedContract,
       gate: gate,
       section: section,
       row: row,
       seat: seat,
-      category: category
+      category: category,
+      full_name: fullName,
+      email: email
     }
-
-    console.log("MatchData:", buy_ticket_data)
 
     // Buy Ticket
     try {
@@ -68,6 +74,41 @@ export default function Web() {
       if (response.ok) {
         const data = await response.json()
         console.log("Ticket buy successful:", data)
+        if (typeof data === 'object' && data !== null && 'token_id' in data) {
+          let token_id = data.token_id;
+          setToastMessage(token_id as string)
+        }
+      } else {
+        console.error("Failed to buy ticket:", response.statusText)
+      }
+    } catch (error) {
+      console.error("Failed to buy ticket#2:", error)
+    }
+  }
+
+  const onBindSubmit = async () => {
+    setShowBindModal(false)
+    setShowToast(true)
+    setToastMessage('The NFT ticket was bound to your name')
+
+    const bind_ticket_data = {
+      ticket_contract_address: selectedContract,
+      token_id: tokenId,
+      full_name: fullName,
+      email: email
+    }
+
+    // Bind Ticket
+    try {
+      const response = await fetch("http://localhost:8000/bind-ticket", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(bind_ticket_data)
+      })
+
+      if (response.ok) {
+        const data = await response.json()
+        console.log("Ticket bind successful for token:", data)
       } else {
         console.error("Failed to buy ticket:", response.statusText)
       }
@@ -128,7 +169,7 @@ export default function Web() {
                       <td className="px-6 py-4 whitespace-nowrap">{match.max_tickets}</td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <button
-                          className="bg-pink-500 text-white active:bg-pink-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                          className="bg-green-500 text-white active:bg-pink-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                           type="button"
                           onClick={() => setShowModal(true)}
                         >
@@ -205,6 +246,24 @@ export default function Web() {
                                         className="border border-gray-300 rounded-md p-2"
                                       />
                                     </div>
+                                    <div className="mt-4">
+                                      <input
+                                        type="text"
+                                        placeholder="Full Name"
+                                        value={fullName}
+                                        onChange={(e) => setFullName(e.target.value)}
+                                        className="border border-gray-300 rounded-m p-2 w-full"
+                                      />
+                                    </div>
+                                    <div className="mt-4">
+                                      <input
+                                        type="text"
+                                        placeholder="email"
+                                        value={email}
+                                        onChange={(e) => setEmail(e.target.value)}
+                                        className="border border-gray-300 rounded-m p-2 w-full"
+                                      />
+                                    </div>
                                   </div>
                                 </div>
                               </div>
@@ -231,6 +290,93 @@ export default function Web() {
                           <div className="fixed inset-0 z-40 bg-black opacity-25"></div>
                         )}
                       </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <button
+                          className="bg-red-500 text-white active:bg-pink-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                          type="button"
+                          onClick={() => setShowBindModal(true)}
+                        >
+                          Bind Ticket
+                        </button>
+                        {showBindModal && (
+                          <div className="fixed inset-0 flex items-center justify-center z-50">
+                            <div className="bg-white p-6 rounded-lg shadow-lg max-w-7xl w-full max-h-2xl h-1/2 overflow-hidden flex flex-col">
+                              <div className="flex-grow">
+                                <div className="flex">
+                                  <div className="w-1/2">
+                                    <img src="/stadium-grey.png" alt="Stadium" className="h-full w-full object-cover" />
+                                  </div>
+                                  <div className="w-1/2 pl-6">
+                                    <h3 className="text-3xl font-semibold mb-4">
+                                      Bind {match.match_name} Tickets
+                                    </h3>
+                                    <p className="text-slate-500 text-lg leading-relaxed">
+                                      <span className="whitespace-pre-line">
+                                        Remember, after you bind your ticket, you cannot resell it!.
+                                      </span>
+                                    </p>
+                                    <div className="mt-4">
+                                      <input
+                                        type="text"
+                                        placeholder="Contract Address"
+                                        value={selectedContract}
+                                        onChange={(e) => setSelectedContract(e.target.value)}
+                                        className="border border-gray-300 rounded-m p-2 w-full"
+                                      />
+                                    </div>
+                                    <div className="mt-4">
+                                      <input
+                                        type="text"
+                                        placeholder="Token ID"
+                                        value={tokenId}
+                                        onChange={(e) => setTokenId(e.target.value)}
+                                        className="border border-gray-300 rounded-m p-2 w-full"
+                                      />
+                                    </div>
+                                    <div className="mt-4">
+                                      <input
+                                        type="text"
+                                        placeholder="Full Name"
+                                        value={fullName}
+                                        onChange={(e) => setFullName(e.target.value)}
+                                        className="border border-gray-300 rounded-m p-2 w-full"
+                                      />
+                                    </div>
+                                    <div className="mt-4">
+                                      <input
+                                        type="text"
+                                        placeholder="email"
+                                        value={email}
+                                        onChange={(e) => setEmail(e.target.value)}
+                                        className="border border-gray-300 rounded-m p-2 w-full"
+                                      />
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="mt-auto flex items-center justify-end">
+                                <button
+                                  className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-2"
+                                  type="button"
+                                  onClick={() => setShowBindModal(false)}
+                                >
+                                  Close
+                                </button>
+                                <button
+                                  className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none"
+                                  type="button"
+                                  onClick={onBindSubmit}
+                                >
+                                  Bind
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        )}
+                        {showModal && (
+                          <div className="fixed inset-0 z-40 bg-black opacity-25"></div>
+                        )}
+                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -243,7 +389,7 @@ export default function Web() {
                         </svg>
                         <span className="sr-only">Check icon</span>
                       </div>
-                      <div className="ml-3 text-sm font-normal">NFT Ticket bought successfully.</div>
+                      <div className="ml-3 text-sm font-normal">{toastMessage}</div>
                       <button type="button" className="ml-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700" data-dismiss-target="#toast-success" aria-label="Close">
                         <span className="sr-only">Close</span>
                         <svg aria-hidden="true" className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
