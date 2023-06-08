@@ -27,6 +27,9 @@ export default function Web() {
             <Button className="bg-yellow-300 text-black" href={"/available-matches"}>
               See Available Matches
             </Button>
+            <Button className="ml-3 bg-yellow-300 text-black" href={"/available-tickets"}>
+              See Available tickets
+            </Button>
           </div>
         </div>
       </section>
